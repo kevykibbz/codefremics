@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState,useRef } from "react";
+import React, { ReactNode, useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -93,38 +93,38 @@ function AddCustomer() {
     e.preventDefault();
     setLoading({ isLoading: true });
     try {
-        const accessToken = getAccessTokenFromCookies();
-        const myData={
-            "first_name":formData.firstName,
-            "other_names":formData.otherNames,
-            "gender":formData.gender,
-            "mobile_number":formData.mobileNumber,
-            "email":formData.email,
-            "description":formData.description
-        }
+      const accessToken = getAccessTokenFromCookies();
+      const myData = {
+        first_name: formData.firstName,
+        other_names: formData.otherNames,
+        gender: formData.gender,
+        mobile_number: formData.mobileNumber,
+        email: formData.email,
+        description: formData.description,
+      };
 
-        const response = await axios.post(
-          "https://stemprotocol.codefremics.com/api/v2/customers/create",
-          myData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-    
-        formRef.current?.reset();
-        console.log("Customer created successfully:", response.data);
-        toast.success(response.data.description);
-    
-        // Optionally, reset the form or navigate to another page
-      } catch (error:any) {
-        console.error("Error creating customer:",error.response?.data.msg);
-        toast.error(`Error creating customer:${error.response?.data.msg}`);
-      } finally {
-        setLoading({ isLoading: false });
-      }
+      const response = await axios.post(
+        "https://stemprotocol.codefremics.com/api/v2/customers/create",
+        myData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      formRef.current?.reset();
+      console.log("Customer created successfully:", response.data);
+      toast.success(response.data.description);
+
+      // Optionally, reset the form or navigate to another page
+    } catch (error: any) {
+      console.error("Error creating customer:", error.response?.data.msg);
+      toast.error(`Error creating customer:${error.response?.data.msg}`);
+    } finally {
+      setLoading({ isLoading: false });
+    }
   };
 
   return (

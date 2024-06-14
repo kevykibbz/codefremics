@@ -28,8 +28,29 @@ const genderOptions = [
   { value: "female", label: "Female" },
   { value: "other", label: "Other" },
 ];
+interface UserFormData {
+  firstName: string;
+  otherNames: string;
+  email: string;
+  gender: string;
+  mobileNumber: string;
+  description: string;
+}
+
+type Errors = {
+  [key: string]: string;
+};
 const register = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [formErrors, setFormErrors] = useState<Errors>({});
+  const [formData, setFormData] = useState<UserFormData>({
+    firstName: "",
+    otherNames: "",
+    email: "",
+    gender: "",
+    mobileNumber: "",
+    description: "",
+  });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -66,18 +87,34 @@ const register = () => {
       color: "#fff",
     }),
   };
+ 
   const steps: Step[] = [
     {
       label: "Personal Information",
-      description: <Step1 />,
+      description: (
+        <Step1
+          onNext={(data: any) => setFormData({ ...formData, ...data })}
+          onValidate={(data: any) => setFormErrors({ ...formErrors, ...data })}
+        />
+      ),
     },
     {
       label: "Additional Information",
-      description: <Step2 />,
+      description: (
+        <Step2
+          onNext={(data: any) => setFormData({ ...formData, ...data })}
+          onValidate={(data: any) => setFormErrors({ ...formErrors, ...data })}
+        />
+      ),
     },
     {
       label: "Security Information",
-      description: <Step3 />,
+      description: (
+        <Step3
+          onNext={(data: any) => setFormData({ ...formData, ...data })}
+          onValidate={(data: any) => setFormErrors({ ...formErrors, ...data })}
+        />
+      ),
     },
   ];
 
