@@ -51,7 +51,7 @@ const Page = () => {
       settLoading(true)
       try {
         const accessToken = getAccessTokenFromCookies();
-        const response = await axios.get<Customer[]>(
+        const response = await axios.get(
           "https://stemprotocol.codefremics.com/api/v2/customers/get-merchant-customers/1",
           {
             headers: {
@@ -60,8 +60,7 @@ const Page = () => {
             },
           }
         );
-        console.log('response:',response)
-        setCustomers(response.data?.response || []);
+        setCustomers(response?.data?.response || []);
       } catch (error) {
         console.error("Error fetching customers:", error);
       }finally{
