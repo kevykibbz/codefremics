@@ -1,0 +1,10 @@
+{
+    "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxNzQxMzk1NiwianRpIjoiNjU0NDQ2ODgtODQzMC00MDc2LTlkNjItYTU1OWVlZjk5NmY0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJfaWQiOiJVMDAwMDAwMDAwMDAxIiwiX3R5cGUiOjEsIl9jaGFubmVsIjoid2ViIn0sIm5iZiI6MTcxNzQxMzk1NiwiZXhwIjoxNzE3NDE0ODU2fQ.LDr-JtQ37OfzOZ2lqH5sIFC3BE6JFRgFgoUaYkMO6nI",
+    "currency": "XAF",
+    "firstName": "Doctor",
+    "id": "U000000000001",
+    "lastName": "James",
+    "refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxNzQxMzk1NiwianRpIjoiYzQzNGMzZTItMTliNi00MWY5LTk2MjMtMzFjYjEzNmU2ZTMyIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOnsiX2lkIjoiVTAwMDAwMDAwMDAwMSIsIl90eXBlIjoxLCJfY2hhbm5lbCI6IndlYiJ9LCJuYmYiOjE3MTc0MTM5NTYsImV4cCI6MTcyMDAwNTk1Nn0.errIZOdVAwRDQDHLbITw6UP8L9pw5IG5zZAE1UTy4Y",
+    "status": 200,
+    "type": 1
+}
