@@ -15,11 +15,11 @@ const poppins = Poppins({
 type CustomerDetails = {
   customer_id: string;
   first_name: string;
-  last_name: string;
+  other_names: string;
   email: string;
-  address: string;
-  date_of_birth: string;
-  phone: string;
+  description: string;
+  gender: string;
+  mobile: string;
 };
 
 const CustomerProfile: React.FC = () => {

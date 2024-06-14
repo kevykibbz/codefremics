@@ -119,7 +119,7 @@ function AddCustomer() {
         toast.success(response.data.description);
     
         // Optionally, reset the form or navigate to another page
-      } catch (error) {
+      } catch (error:any) {
         console.error("Error creating customer:",error.response?.data.msg);
         toast.error(`Error creating customer:${error.response?.data.msg}`);
       } finally {
