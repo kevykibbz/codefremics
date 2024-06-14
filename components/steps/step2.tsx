@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import WarningIcon from "@mui/icons-material/Warning";
 import Select from '@mui/material/Select';
+import ErrorText from "../errors/errorText";
 
 interface Step2Props {
   onNext: (data: any) => void;
@@ -92,16 +93,7 @@ function Step2({ onNext,onValidate }: Step2Props) {
               {...register("email")}
               type="email"
               error={!!errors.email}
-              helperText={
-                errors.email ? (
-                  <React.Fragment>
-                    <WarningIcon color="error" />
-                    {errors.email.message}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )
-              }
+              helperText={<ErrorText error={errors.email} />}
               InputLabelProps={{
                 sx: {
                   color: "#fff",
@@ -154,8 +146,7 @@ function Step2({ onNext,onValidate }: Step2Props) {
                 <FormHelperText
                   sx={{ color: "red", display: "flex", alignItems: "center" }}
                 >
-                  <WarningIcon color="error" sx={{ marginRight: "4px" }} />
-                  {errors.gender.message}
+                  <ErrorText error={errors.gender} />
                 </FormHelperText>
               )}
             </StyledFormControl>

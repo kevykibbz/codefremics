@@ -3,12 +3,13 @@ import { FormGroup, TextField, FormControl,  } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { step1Schema } from "./schemas";
-import WarningIcon from "@mui/icons-material/Warning";
-
+import ErrorText from "../errors/errorText";
 interface Step1Props {
   onNext: (data: any) => void;
   onValidate: (data: any) => void;
 }
+
+
 
 const Step1: React.FC<Step1Props> = ({ onNext,onValidate }:Step1Props) => {
   const {
@@ -35,6 +36,7 @@ const Step1: React.FC<Step1Props> = ({ onNext,onValidate }:Step1Props) => {
   }, [firstName, otherNames]);
 
 
+  
   return (
     <div className="row">
       <div className="col-12">
@@ -45,17 +47,8 @@ const Step1: React.FC<Step1Props> = ({ onNext,onValidate }:Step1Props) => {
               id="first_name"
               {...register("firstName")}
               type="text"
-              error={!!errors.firstName}
-              helperText={
-                errors.firstName ? (
-                  <React.Fragment>
-                    <WarningIcon color="error" />
-                    {errors.firstName.message}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )
-              }
+              error={!!errors.firstName}  
+              helperText={<ErrorText error={errors.firstName} />}
               InputLabelProps={{
                 sx: {
                   color: "#fff",
@@ -92,16 +85,7 @@ const Step1: React.FC<Step1Props> = ({ onNext,onValidate }:Step1Props) => {
               {...register("otherNames")}
               type="text"
               error={!!errors.otherNames}
-              helperText={
-                errors.otherNames ? (
-                  <React.Fragment>
-                    <WarningIcon color="error" />
-                    {errors.otherNames.message}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )
-              }
+              helperText={<ErrorText error={errors.otherNames} />}
               InputLabelProps={{
                 sx: {
                   color: "#fff",

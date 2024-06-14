@@ -4,6 +4,7 @@ import { step3Schema } from "./schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import WarningIcon from "@mui/icons-material/Warning";
+import ErrorText from "../errors/errorText";
 
 interface Step3Props {
   onNext: (data: any) => void;
@@ -47,16 +48,7 @@ function Step3({onNext,onValidate}:Step3Props) {
               {...register("mobileNumber")}
               type="tel"
               error={!!errors.mobileNumber}
-              helperText={
-                errors.mobileNumber ? (
-                  <React.Fragment>
-                    <WarningIcon color="error" />
-                    {errors.mobileNumber.message}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )
-              }
+              helperText={<ErrorText error={errors.mobileNumber} />}
               InputLabelProps={{
                 sx: {
                   color: "#fff",
@@ -94,16 +86,7 @@ function Step3({onNext,onValidate}:Step3Props) {
               multiline
               {...register("description")}
               error={!!errors.description}
-              helperText={
-                errors.description ? (
-                  <React.Fragment>
-                    <WarningIcon color="error" />
-                    {errors.description.message}
-                  </React.Fragment>
-                ) : (
-                  ""
-                )
-              }
+              helperText={<ErrorText error={errors.description} />}
               InputLabelProps={{
                 sx: {
                   color: "#fff",
