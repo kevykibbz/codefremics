@@ -499,3 +499,264 @@ Screenshot
 
 The tasks outlined in this project guide developers through the creation of essential features for a web application, including user authentication, customer creation, data table implementation with search functionality, and displaying detailed customer profiles. By implementing these features, the application will offer a robust and user-friendly experience, allowing for secure access, efficient customer management, and easy retrieval of customer information. This ensures that the application meets the needs of its users effectively and efficiently.
 
+## Task on Mobile Application
+
+### Task 1: Design a Login Page using Flutter
+
+## Objective
+Create a login page that accepts an email address and password, authenticates the user, and displays appropriate error messages when authentication fails.
+
+## Implementation
+
+### Step 1: Setup Flutter Project
+Ensure you have Flutter installed on your machine. If not, follow the instructions on the [Flutter official website](https://flutter.dev/docs/get-started/install) to set up Flutter.
+
+Create a new Flutter project:
+```sh
+flutter create egamlio
+cd egamlio
+```
+
+
+Screenshots
+
+![Onboarding 1](./codefremics/app/onboarding1.png)
+
+![Onboarding 2](./codefremics/app/onboarding2.png)
+
+![Onboarding 3](./codefremics/app/onboarding3.png)
+
+![Onboarding 4](./codefremics/app/onboarding4.png)
+
+![Login Page](./codefremics/app/login.png)
+
+![Login Page With errors](./codefremics/app/login2.png)
+
+![Login Page Without errors](./codefremics/app/login3.png)
+
+![Sign Up](./codefremics/app/signup.png)
+
+
+# Task 2: Design a Customer Home Page
+
+## Objective
+Create a customer home page that displays customer details when a user logs into the application.
+
+## Implementation
+
+### Step 1: Setup Customer Details Model
+
+Create a model class `user_details.dart` to represent customer details.
+
+```dart
+class UserDetails {
+  final String firstName;
+  final String email;
+  final String gender;
+  final String mobile;
+  final String otherNames;
+
+  UserDetails({
+    required this.firstName,
+    required this.email,
+    required this.gender,
+    required this.mobile,
+    required this.otherNames,
+  });
+
+  factory UserDetails.fromJson(Map<String, dynamic> json) {
+    return UserDetails(
+      firstName: json['response']['first_name'] ?? "Kevin",
+      email: json['response']['email'] ?? "Kibebekevin@gmail.com",
+      gender: json['response']['gender'] ?? "Male",
+      mobile: json['response']['mobile'] ?? "0796268817",
+      otherNames: json['response']['other_names'] ?? "Kibebe",
+    );
+  }
+}
+```
+
+Screenshot
+
+![Customer Details Token Expired](./codefremics/app/dashboard1.png)
+
+![Customer Details Token Active](./codefremics/app/dashboard2.png)
+
+
+# Task 3: Add Logout Function on the Mobile Application
+
+## Objective
+Implemented a logout function that redirects the customer to the login page upon logging out.
+
+## Implementation
+
+### Step 1: Add Logout Button to Home Page
+
+Modified the `home_page.dart` to include a logout button in the app bar.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'user_details.dart';
+import 'fetch_user_details.dart';
+import 'login_page.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff6269d8),
+        title: const Text(
+          'Customer Details',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              _logout(context);
+            },
+          ),
+        ],
+      ),
+      body: FutureBuilder<UserDetails>(
+        future: fetchUserDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            final userDetails = snapshot.data!;
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTextField('Full Name', userDetails.firstName, Icons.person_outline),
+                  _buildTextField('Email', userDetails.email, Icons.email_outlined),
+                  _buildTextField('Gender', userDetails.gender, userDetails.gender.toLowerCase() == 'male' ? Icons.male : Icons.female),
+                  _buildTextField('Phone Number', userDetails.mobile, Icons.phone_android_outlined),
+                  _buildTextField('Other Name(s)', userDetails.otherNames, Icons.person_outline),
+                ],
+              ),
+            );
+          } else {
+            return const Center(child: Text('No data found'));
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, String value, IconData iconData) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(iconData, color: const Color(0xff6269d8)),
+          const SizedBox(width: 10),
+          Text('$label: $value', style: const TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
+  void _logout(BuildContext context) {
+    Get.offAll(() => LoginPage());
+  }
+}
+```
+
+Screenshot
+
+![Logout Button](./codefremics/app/logout.png)
+
+# Task 4: List Customers
+
+## Objective
+Added a button on the home screen that redirects to a customer list page. This page should display the customer first name and email address below the customer first name.
+
+## Implementation
+
+### Step 1: Add a Button to Home Screen
+
+Modify the `home_page.dart` to include a button that navigates to the customers list page.
+
+```dart
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+class Customer {
+  final String firstName;
+  final String email;
+
+  Customer({
+    required this.firstName,
+    required this.email,
+  });
+
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      firstName: json['first_name'] ?? "",
+      email: json['email'] ?? "",
+    );
+  }
+}
+
+class CustomersPage extends StatelessWidget {
+  final controller = Get.put(CustomersController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff6269d8),
+        title: const Text(
+          'Customers List',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+         leading: IconButton(
+          icon: const Icon(Icons.arrow_back,color: Colors.white,),
+          onPressed: () {
+            Get.back(); // Navigate back to previous screen using GetX
+          },
+        ),
+      ),
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: controller.customers.length,
+                itemBuilder: (context, index) {
+                  final customer = controller.customers[index];
+                  return ListTile(
+                    title: Text(customer.firstName),
+                    subtitle: Text(customer.email),
+                    leading: CircleAvatar(
+                      child: Text(customer.firstName[0]),
+                    ),
+                  );
+                },
+              ),
+      ),
+    );
+  }
+}
+```
+Screenshot
+
+![Customer list](./codefremics/app/customerlist.png)
